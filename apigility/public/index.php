@@ -54,5 +54,11 @@ if (file_exists('config/development.config.php')) {
     );
 }
 
+// Gambiarra para passar no CORS
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Credentials: true");
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Access-Control-Allow-Origin, Authorization, Content-type');
+
 // Run the application!
 Application::init($appConfig)->run();

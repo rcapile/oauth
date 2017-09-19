@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../../providers/auth-service/auth-service';
-import { NavController, App, LoadingController, ToastController } from 'ionic-angular';
-import { LoginPage } from '../login/login';
+import { Component } from '@angular/core'
+import { AuthService } from '../../providers/auth-service/auth-service'
+import { NavController, App, LoadingController, ToastController } from 'ionic-angular'
+import { LoginPage } from '../login/login'
 
 @Component({
   selector: 'page-home',
@@ -9,47 +9,53 @@ import { LoginPage } from '../login/login';
 })
 export class HomePage {
 
-  loading: any;
-  isLoggedIn: boolean = false;
+  loading: any
+  isLoggedIn: boolean = false
 
-  constructor(public app: App, public navCtrl: NavController, public authService: AuthService, public loadingCtrl: LoadingController, private toastCtrl: ToastController) {
-    if(localStorage.getItem("token")) {
-      this.isLoggedIn = true;
+  constructor (public app: App,
+               public navCtrl: NavController,
+               public authService: AuthService,
+               public loadingCtrl: LoadingController,
+               private toastCtrl: ToastController) {
+    if (localStorage.getItem('token')) {
+      this.isLoggedIn = true
     }
   }
 
-  logout() {
+  logout () {
+    this.showLoader();
     this.authService.logout().then((result) => {
       this.loading.dismiss();
-      let nav = this.app.getRootNav();
-      nav.setRoot(LoginPage);
+      localStorage.clear();
+      let nav = this.app.getRootNav()
+      nav.setRoot(LoginPage)
     }, (err) => {
-      this.loading.dismiss();
-      this.presentToast(err);
-    });
+      this.loading.dismiss()
+      this.presentToast(err)
+    })
   }
 
-  showLoader(){
+  showLoader () {
     this.loading = this.loadingCtrl.create({
       content: 'Authenticating...'
-    });
+    })
 
-    this.loading.present();
+    this.loading.present()
   }
 
-  presentToast(msg) {
+  presentToast (msg) {
     let toast = this.toastCtrl.create({
       message: msg,
       duration: 3000,
       position: 'bottom',
       dismissOnPageChange: true
-    });
+    })
 
     toast.onDidDismiss(() => {
-      console.log('Dismissed toast');
-    });
+      console.log('Dismissed toast')
+    })
 
-    toast.present();
+    toast.present()
   }
 
 }

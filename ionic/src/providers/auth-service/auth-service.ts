@@ -1,40 +1,46 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { Injectable } from '@angular/core'
+import { Http, Headers } from '@angular/http'
+import 'rxjs/add/operator/map'
 
-let apiUrl = 'http://localhost:8080/api/';
+let apiUrl = 'http://localhost:8888/oauth'
 
 @Injectable()
 export class AuthService {
 
-  constructor(public http: Http) {}
+  constructor (public http: Http) {}
 
-  login(credentials) {
+  login (credentials) {
     return new Promise((resolve, reject) => {
-      let headers = new Headers();
-      headers.append('Content-Type', 'application/json');
+      let headers = new Headers()
+            //headers.append('Content-Type', 'application/json');
+      headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8')
+      headers.append('Access-Control-Allow-Origin', '*')
+      headers.append('Authorization', 'Basic ' + btoa(credentials.username + ':' + credentials.password))
 
-      this.http.post(apiUrl+'login', JSON.stringify(credentials), {headers: headers})
+      this.http.post(apiUrl, 'grant_type=client_credentials', {headers: headers})
         .subscribe(res => {
-          resolve(res.json());
+          resolve(res.json())
         }, (err) => {
-          reject(err);
-        });
-    });
+          reject(err)
+        })
+    })
   }
 
-  logout(){
+  logout () {
     return new Promise((resolve, reject) => {
-      let headers = new Headers();
-      headers.append('X-Auth-Token', localStorage.getItem('token'));
+      //let headers = new Headers()
+      //headers.append('X-Auth-Token', localStorage.getItem('token'))
 
-      this.http.post(apiUrl+'logout', {}, {headers: headers})
+      this.http.post(apiUrl + '/revoke', {
+          token: localStorage.getItem('token'),
+          token_type_hint: 'access_token'
+        })
         .subscribe(res => {
-          localStorage.clear();
+          resolve(res.json())
         }, (err) => {
-          reject(err);
-        });
-    });
+          reject(err)
+        })
+    })
   }
 
 }
