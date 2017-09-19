@@ -19,7 +19,7 @@ return [
                     'adapter' => \ZF\MvcAuth\Authentication\OAuth2Adapter::class,
                     'storage' => [
                         'adapter' => \pdo::class,
-                        'dsn' => 'sqlite:/home/rodrigo/sites/dev/oauth/apigility/data/dbtest.sqlite',
+                        'dsn' => 'sqlite:<Path to apigility>/data/dbtest.sqlite',
                         'route' => '/oauth',
                     ],
                 ],

@@ -1,4 +1,4 @@
-Apigility Skeleton Application
+Apigility with OAuth2
 ==============================
 
 Requirements
@@ -6,58 +6,15 @@ Requirements
 
 Please see the [composer.json](composer.json) file.
 
-Installation
+References
 ------------
 
-### Via release tarball
+- [Apigility OAuth2](https://apigility.org/documentation/auth/authentication-oauth2)
+- [Zf-OAuth2](https://apigility.org/documentation/modules/zf-oauth2)
 
-Grab the latest release via the [Apigility website](http://apigility.org/)
-and/or the [releases page](https://github.com/zfcampus/zf-apigility-skeleton/releases); each release
-has distribution tarballs and zipballs available.
 
-Untar it:
-
-```bash
-$ tar xzf zf-apigility-skeleton-{version}.tgz
-```
-
-(Where `{version}` is the version you downloaded.)
-
-Or unzip, if you chose the zipball:
-
-```bash
-$ unzip zf-apigility-skeleton-{version}.zip
-```
-
-(Where `{version}` is the version you downloaded.)
-
-### Via Composer (create-project)
-
-You can use the `create-project` command from [Composer](http://getcomposer.org/)
-to create the project in one go (you need to install [composer](https://getcomposer.org/doc/00-intro.md#downloading-the-composer-executable)):
-
-```bash
-$ curl -s https://getcomposer.org/installer | php -- --filename=composer
-$ composer create-project -sdev zfcampus/zf-apigility-skeleton path/to/install
-```
-
-### Via Git (clone)
-
-First, clone the repository:
-
-```bash
-# git clone https://github.com/zfcampus/zf-apigility-skeleton.git # optionally, specify the directory in which to clone
-$ cd path/to/install
-```
-
-At this point, you need to use [Composer](https://getcomposer.org/) to install
-dependencies. Assuming you already have Composer:
-
-```bash
-$ composer install
-```
-
-### All methods
+Installation
+------------
 
 Once you have the basic installation, you need to put it in development mode:
 
@@ -65,6 +22,15 @@ Once you have the basic installation, you need to put it in development mode:
 $ cd path/to/install
 $ composer development-enable
 ```
+
+Copy test database from Apigility
+
+```bash
+$ cp vendor/zfcampus/zf-oauth2/data/dbtest.sqlite data/dbtest.sqlite
+```
+
+Create the file `config/autoload/local.php` based on the `.dist` file.
+
 
 Now, fire it up! Do one of the following:
 
@@ -132,99 +98,6 @@ reasonable error log settings in place. For the built-in PHP web server, errors 
 the console itself; otherwise, ensure you have an error log file specified in your configuration.
 
 `display_errors` should *never* be enabled in production, regardless.
-
-### Vagrant
-
-If you prefer to develop with Vagrant, there is a basic vagrant recipe included with this project.
-
-This recipe assumes that you already have Vagrant installed. The virtual machine will try to use localhost:8080 by
-default, so if you already have a server on this port of your host machine, you need to shut down the conflicting
-server first, or if you know how, you can reconfigure the ports in Vagrantfile.
-
-Assuming you have Vagrant installed and assuming you have no port conflicts, you can bring up the Vagrant machine
-with the standard `up` command:
-
-```bash
-$ vagrant up
-```
-
-When the machine comes up, you can ssh to it with the standard ssh forward agent:
-
-```bash
-$ vagrant ssh
-```
-
-The web root is inside the shared directory, which is at `/var/www`; this is
-also the home directory for the vagrant issue, which will be the initial
-directory you land in once you connect via SSH.
-
-The image installs composer during provisioning, meaning you can use it to
-install and update dependencies:
-
-```bash
-# Install dependencies:
-$ vagrant ssh -c 'composer install'
-# Update dependencies:
-$ vagrant ssh -c 'composer update'
-```
-
-You can also manipulate development mode:
-
-```bash
-$ vagrant ssh -c 'composer development-enable'
-$ vagrant ssh -c 'composer development-disable'
-$ vagrant ssh -c 'composer development-status'
-```
-
-> #### Vagrant and VirtualBox
->
-> The vagrant image is based on `bento/ubuntu-16.04`. If you are using VirtualBox as
-> a provider, you will need:
->
-> - Vagrant 1.8.5 or later
-> - VirtualBox 5.0.26 or later
-
-For vagrant documentation, please refer to [vagrantup.com](https://www.vagrantup.com/)
-
-### Docker
-
-If you develop or deploy using Docker, we provide configuration for you.
-
-Prepare your development environment using [docker compose](https://docs.docker.com/compose/install/):
-
-```bash
-$ git clone https://github.com/zfcampus/zf-apigility-skeleton
-$ cd zf-apigility-skeleton
-$ docker-compose build
-# Install dependencies via composer, if you haven't already:
-$ docker-compose run apigility composer install
-# Enable development mode:
-$ docker-compose run apigility composer development-enable
-```
-
-Start the container:
-
-```bash
-$ docker-compose up
-```
-
-Access Apigility from `http://localhost:8080/` or `http://<boot2docker ip>:8080/` if on Windows or Mac.
-
-You may also use the provided `Dockerfile` directly if desired.
-
-Once installed, you can use the container to update dependencies:
-
-```bash
-$ docker-compose run apigility composer update
-```
-
-Or to manipulate development mode:
-
-```bash
-$ docker-compose run apigility composer development-enable
-$ docker-compose run apigility composer development-disable
-$ docker-compose run apigility composer development-status
-```
 
 QA Tools
 --------
