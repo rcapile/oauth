@@ -11,4 +11,20 @@
  * credentials from accidentally being committed into version control.
  */
 
-return [];
+return [
+    'zf-mvc-auth' => [
+        'authentication' => [
+            'adapters' => [
+                'oauth2_pdo' => [
+                    'adapter' => \ZF\MvcAuth\Authentication\OAuth2Adapter::class,
+                    'storage' => [
+                        'adapter' => \pdo::class,
+                        'dsn' => 'sqlite:/home/rodrigo/sites/dev/oauth/apigility/data/dbtest.sqlite',
+                        'route' => '/oauth',
+                    ],
+                ],
+            ],
+        ],
+    ],
+];
+

@@ -1,2 +1,3 @@
 local.php
 *.local.php
+!oauth2.local.php
