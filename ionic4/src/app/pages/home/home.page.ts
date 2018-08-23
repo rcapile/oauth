@@ -22,21 +22,24 @@ export class HomePage {
     }
 
     logout() {
-        this.showLoader();
-        this.authService.logout().then((result) => {
-            this.loading.dismiss();
-            localStorage.clear();
-            this.navCtrl.goRoot('login');
-        }, (err) => {
-            this.loading.dismiss();
-            this.presentToast(err);
+        this.showLoader().then(() => {
+            this.authService.logout().then((result) => {
+                this.loading.dismiss();
+                localStorage.clear();
+                this.navCtrl.goRoot('login');
+            }, (err) => {
+                this.loading.dismiss();
+                this.presentToast(err);
+            });
         });
     }
 
-    showLoader() {
-        this.loading = this.loadingCtrl.create({
+    async showLoader() {
+        this.loading = await this.loadingCtrl.create({
             content: 'Authenticating...'
-        }).then(loading => loading.present());
+        });
+
+        await this.loading.present();
     }
 
     presentToast(msg) {
@@ -45,8 +48,8 @@ export class HomePage {
             duration: 3000,
             position: 'bottom'
         }).then(toast => toast.present());
-       /* toast.onDidDismiss(() => {
-            console.log('Dismissed toast');
-        });*/
+        /* toast.onDidDismiss(() => {
+             console.log('Dismissed toast');
+         });*/
     }
 }
