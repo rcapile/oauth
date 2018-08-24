@@ -1,3 +1,30 @@
+<ion-menu swipeGesture="false" contentId="menu" slot="primary">
+    <ion-header translucent>
+        <ion-toolbar color="primary">
+            <ion-title>Menu</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-button (click)="logout()">
+            logout
+        </ion-button>
+    </ion-content>
+</ion-menu>
+<ion-nav id="menu"></ion-nav>
+
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-toggle>
+                <ion-button>
+                    <ion-icon slot="icon-only" name="menu"></ion-icon>
+                </ion-button>
+            </ion-menu-toggle>
+        </ion-buttons>
+        <ion-title>Home</ion-title>
+    </ion-toolbar>
+</ion-header>
+
 <ion-tabs>
     <ion-tab label="Home" icon="home" href="/tabs/(home:home)">
         <ion-router-outlet name="home"></ion-router-outlet>
