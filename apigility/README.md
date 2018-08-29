@@ -52,6 +52,8 @@ You can then visit the site at http://localhost:8080/ - which will bring up a
 welcome page and the ability to visit the dashboard in order to create and
 inspect your APIs.
 
+**Test:** You can use `testclient` with password `testpass` for authentication tests.
+
 ### NOTE ABOUT USING APACHE
 
 Apache forbids the character sequences `%2F` and `%5C` in URI paths. However, the Apigility Admin

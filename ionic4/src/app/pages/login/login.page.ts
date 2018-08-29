@@ -7,11 +7,10 @@ import {AuthService} from '../../providers/auth-service/auth-service';
     templateUrl: './login.page.html',
     styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
 
     loading: any;
     loginData = {username: '', password: ''};
-    data: any;
 
     constructor(
         public navCtrl: NavController,
@@ -20,17 +19,11 @@ export class LoginPage implements OnInit {
         private toastCtrl: ToastController) {
     }
 
-    ngOnInit() {
-    }
-
     doLogin() {
         this.showLoader().then(() => {
-            this.authService.login(this.loginData).then((result) => {
-                console.log(this.loading);
+            this.authService.login(this.loginData).then(() => {
                 this.loading.dismiss();
-                this.data = result;
-                localStorage.setItem('token', this.data.access_token);
-                this.navCtrl.goRoot('tabs');
+                this.navCtrl.goRoot('/tabs/(home:home)');
             }, (err) => {
                 this.loading.dismiss();
                 this.presentToast(err);
@@ -42,20 +35,14 @@ export class LoginPage implements OnInit {
         this.loading = await this.loadingCtrl.create({
             content: 'Authenticating...'
         });
-
         await this.loading.present();
     }
 
     presentToast(msg) {
-        console.log(msg);
         this.toastCtrl.create({
-            message: msg,
+            message: msg.detail,
             duration: 3000,
             position: 'bottom'
         }).then(toast => toast.present());
-
-        /*toast.onDidDismiss(() => {
-            console.log('Dismissed toast');
-        });*/
     }
 }

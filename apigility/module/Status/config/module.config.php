@@ -67,4 +67,19 @@ return [
             ],
         ],
     ],
+    'zf-mvc-auth' => [
+        'authorization' => [
+            'Status\\V1\\Rpc\\Ping\\Controller' => [
+                'actions' => [
+                    'Ping' => [
+                        'GET' => true,
+                        'POST' => false,
+                        'PUT' => false,
+                        'PATCH' => false,
+                        'DELETE' => false,
+                    ],
+                ],
+            ],
+        ],
+    ],
 ];

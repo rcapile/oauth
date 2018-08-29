@@ -9,12 +9,6 @@ import {AuthService} from '../../providers/auth-service/auth-service';
 })
 export class TabsPage {
 
-  /*  constructor(public navCtrl: NavController) {
-        if (!localStorage.getItem('token')) {
-            navCtrl.goRoot('login');
-        }
-    }
-*/
     loading: any;
     isLoggedIn = false;
 
@@ -26,13 +20,16 @@ export class TabsPage {
         if (localStorage.getItem('token')) {
             this.isLoggedIn = true;
         }
+
+        if (!this.isLoggedIn) {
+            this.navCtrl.goRoot('login');
+        }
     }
 
     logout() {
         this.showLoader().then(() => {
             this.authService.logout().then((result) => {
                 this.loading.dismiss();
-                localStorage.clear();
                 this.navCtrl.goRoot('login');
             }, (err) => {
                 this.loading.dismiss();
@@ -55,9 +52,5 @@ export class TabsPage {
             duration: 3000,
             position: 'bottom'
         }).then(toast => toast.present());
-        /* toast.onDidDismiss(() => {
-             console.log('Dismissed toast');
-         });*/
     }
-
 }

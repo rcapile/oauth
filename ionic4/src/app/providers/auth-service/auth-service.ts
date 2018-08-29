@@ -1,12 +1,18 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers} from '@angular/http';
 
-const apiUrl = 'http://localhost:8888/oauth';
+const apiUrl = 'http://localhost:8888';
 
 @Injectable()
 export class AuthService {
 
     constructor(public http: Http) {
+    }
+
+    static setToken(credentials, token) {
+        localStorage.setItem('token', token.access_token);
+        localStorage.setItem('token_expires', token.expires_in);
+        localStorage.setItem('client_id', credentials.username);
     }
 
     login(credentials) {
@@ -17,11 +23,12 @@ export class AuthService {
             headers.append('Access-Control-Allow-Origin', '*');
             headers.append('Authorization', 'Basic ' + btoa(credentials.username + ':' + credentials.password));
 
-            this.http.post(apiUrl, 'grant_type=client_credentials', {headers: headers})
-                .subscribe(res => {
-                    resolve(res.json());
+            this.http.post(apiUrl + '/oauth', 'grant_type=client_credentials', {headers: headers})
+                .subscribe(result => {
+                    AuthService.setToken(credentials, result.json());
+                    resolve(result.json());
                 }, (err) => {
-                    reject(err);
+                    reject(err.json());
                 });
         });
     }
@@ -31,11 +38,12 @@ export class AuthService {
             // let headers = new Headers()
             // headers.append('X-Auth-Token', localStorage.getItem('token'))
 
-            this.http.post(apiUrl + '/revoke', {
+            this.http.post(apiUrl + '/oauth/revoke', {
                 token: localStorage.getItem('token'),
                 token_type_hint: 'access_token'
             })
                 .subscribe(res => {
+                    localStorage.clear();
                     resolve(res.json());
                 }, (err) => {
                     reject(err);
